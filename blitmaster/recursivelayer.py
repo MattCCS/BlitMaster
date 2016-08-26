@@ -2,7 +2,7 @@
 import abc
 from collections import OrderedDict
 
-from blitmaster import setlayer
+from . import setlayer
 
 
 class RecursiveLayer(setlayer.SetLayer):

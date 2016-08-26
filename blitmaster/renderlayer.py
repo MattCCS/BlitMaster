@@ -1,15 +1,15 @@
 
 import abc
 
-from blitmaster import setlayer
+from . import recursivelayer
 
 
-class RenderLayer(setlayer.SetLayer):
+class RenderLayer(recursivelayer.RecursiveLayer):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name, dims):
-        setlayer.SetLayer.__init__(self, name, dims)
+    def __init__(self, dims, name=None, sublayers=None):
+        recursivelayer.RecursiveLayer.__init__(self, dims, name=name, sublayers=sublayers)
 
     ####################################
     # rendering

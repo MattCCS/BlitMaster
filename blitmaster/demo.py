@@ -1,5 +1,5 @@
 
-from blitmaster.layer import Layer
+from .layer import Layer
 
 L = Layer("L", (8, 5))
 print L.relative_1d_coord(2, 2)

@@ -1,7 +1,7 @@
 
 import abc
 
-from blitmaster import baselayer
+from . import baselayer
 
 
 class RegisteredLayer(baselayer.BaseLayer):
