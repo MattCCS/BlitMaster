@@ -1,7 +1,7 @@
 
-from blitmaster import layer
+from blitmaster.layer import Layer
 
-L = layer.Layer("L", (8, 5))
+L = Layer("L", (8, 5))
 print L.relative_1d_coord(2, 2)
 print L.registry
 print Layer.get("L")

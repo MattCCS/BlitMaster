@@ -1,24 +1,19 @@
 
 import abc
 
-from blitmaster import recursivelayer
+from blitmaster import baselayer
 
 
-class SetLayer(recursivelayer.RecursiveLayer):
+class SetLayer(baselayer.BaseLayer):
 
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, name, dims):
-        recursivelayer.RecursiveLayer.__init__(self, name, dims)
+        baselayer.BaseLayer.__init__(self, name, dims)
         self.points = {}
 
     def reset(self):
         self.points = {}
-
-    def reset_recursive(self):
-        self.reset()
-        for (_, _, layer) in list(self.layers.values()):
-            layer.reset_recursive()
 
     ####################################
     # individual points

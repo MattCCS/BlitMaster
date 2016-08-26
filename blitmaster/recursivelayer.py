@@ -2,10 +2,10 @@
 import abc
 from collections import OrderedDict
 
-from blitmaster import baselayer
+from blitmaster import setlayer
 
 
-class RecursiveLayer(baselayer.BaseLayer):
+class RecursiveLayer(setlayer.SetLayer):
 
     __metaclass__ = abc.ABCMeta
 
@@ -18,7 +18,12 @@ class RecursiveLayer(baselayer.BaseLayer):
         for (x, y, each) in sublayers:
             self.add_layer(x, y, each)
 
-        baselayer.BaseLayer.__init__(self, name, dims)
+        setlayer.SetLayer.__init__(self, name, dims)
+
+    def reset_recursive(self):
+        self.reset()
+        for (_, _, layer) in list(self.layers.values()):
+            layer.reset_recursive()
 
     def get_layer(self, name):
         return self.layers[name]
