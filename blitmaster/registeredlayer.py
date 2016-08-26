@@ -10,13 +10,13 @@ class RegisteredLayer(baselayer.BaseLayer):
 
     registry = {}
 
-    def __init__(self, name, dims):
-        if name in RegisteredLayer.registry:
-            raise RuntimeError("Layer name {} already exists!".format(repr(name)))
-
-        baselayer.BaseLayer.__init__(self, name, dims)
-
-        RegisteredLayer.registry[name] = self
+    def __init__(self, dims, name=None):
+        baselayer.BaseLayer.__init__(self, dims)
+        
+        if name is not None:
+            if name in RegisteredLayer.registry:
+                raise RuntimeError("Layer name {} already exists!".format(repr(name)))
+            RegisteredLayer.registry[name] = self
 
     @staticmethod
     def get(name):

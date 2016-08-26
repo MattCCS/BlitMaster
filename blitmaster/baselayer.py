@@ -6,9 +6,7 @@ class BaseLayer(object):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name, dims):
-
-        self.name = name
+    def __init__(self, dims):
         self.w, self.h = dims
 
         # self.restrict = restrict

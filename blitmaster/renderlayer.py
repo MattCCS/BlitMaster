@@ -8,8 +8,8 @@ class RenderLayer(recursivelayer.RecursiveLayer):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, dims, name=None, sublayers=None):
-        recursivelayer.RecursiveLayer.__init__(self, dims, name=name, sublayers=sublayers)
+    def __init__(self, dims, sublayers=None):
+        recursivelayer.RecursiveLayer.__init__(self, dims, sublayers=sublayers)
 
     ####################################
     # rendering

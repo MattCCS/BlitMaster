@@ -8,8 +8,8 @@ class SetLayer(baselayer.BaseLayer):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name, dims):
-        baselayer.BaseLayer.__init__(self, name, dims)
+    def __init__(self, dims):
+        baselayer.BaseLayer.__init__(self, dims)
         self.points = {}
 
     def reset(self):

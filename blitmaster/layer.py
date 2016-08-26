@@ -9,8 +9,8 @@ class Layer(registeredlayer.RegisteredLayer,
             renderlayer.RenderLayer,
             resizelayer.ResizeLayer):
 
-    def __init__(self, name, dims, sublayers=None):
+    def __init__(self, dims, name=None, sublayers=None):
 
-        registeredlayer.RegisteredLayer.__init__(self, name, dims)
-        renderlayer.RenderLayer.__init__(self, name, dims, sublayers=sublayers)
-        resizelayer.ResizeLayer.__init__(self, name, dims)
+        registeredlayer.RegisteredLayer.__init__(self, dims, name=name)
+        renderlayer.RenderLayer.__init__(self, dims, sublayers=sublayers)
+        resizelayer.ResizeLayer.__init__(self, dims)

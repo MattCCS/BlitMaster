@@ -10,8 +10,8 @@ class ResizeLayer(baselayer.BaseLayer):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name, dims):
-        baselayer.BaseLayer.__init__(self, name, dims)
+    def __init__(self, dims):
+        baselayer.BaseLayer.__init__(self, dims)
 
     def resize_diff(self, dw=0, dh=0):
         (w, h) = self.size()

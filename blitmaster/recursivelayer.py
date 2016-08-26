@@ -9,7 +9,9 @@ class RecursiveLayer(setlayer.SetLayer):
 
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name, dims, sublayers=None):
+    def __init__(self, dims, sublayers=None):
+        setlayer.SetLayer.__init__(self, dims)
+
         self.layers = OrderedDict()  # string -> (x, y, layer) (ORDER MATTERS!)
 
         if sublayers is None:
@@ -17,8 +19,6 @@ class RecursiveLayer(setlayer.SetLayer):
 
         for (x, y, each) in sublayers:
             self.add_layer(x, y, each)
-
-        setlayer.SetLayer.__init__(self, name, dims)
 
     def reset_recursive(self):
         self.reset()
