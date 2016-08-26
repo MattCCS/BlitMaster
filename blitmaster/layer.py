@@ -1,19 +1,15 @@
 
-from blitmaster.setlayer import SetLayer
-from blitmaster.resizelayer import ResizeLayer
-from blitmaster.renderlayer import RenderLayer
+from blitmaster import registeredlayer
+from blitmaster import renderlayer
+from blitmaster import resizelayer
 
 
-class Layer(SetLayer, ResizeLayer, RenderLayer):
+class Layer(registeredlayer.RegisteredLayer,
+            renderlayer.RenderLayer,
+            resizelayer.ResizeLayer):
 
-    def __init__(self, name, dims):
+    def __init__(self, name, dims, sublayers=None):
 
-        SetLayer.__init__(self, name, dims)
-        ResizeLayer.__init__(self, name, dims)
-        RenderLayer.__init__(self, name, dims)
-        pass
-
-L = Layer("L", (3, 5))
-print L.relative_1d_coord(2, 2)
-print L.registry
-print Layer.get("L")
+        registeredlayer.RegisteredLayer.__init__(self, name, dims)
+        renderlayer.RenderLayer.__init__(self, name, dims, sublayers=sublayers)
+        resizelayer.ResizeLayer.__init__(self, name, dims)

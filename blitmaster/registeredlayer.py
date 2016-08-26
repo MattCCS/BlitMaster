@@ -11,7 +11,6 @@ class RegisteredLayer(baselayer.BaseLayer):
     registry = {}
 
     def __init__(self, name, dims):
-        print 'registered'
         if name in RegisteredLayer.registry:
             raise RuntimeError("Layer name {} already exists!".format(repr(name)))
 

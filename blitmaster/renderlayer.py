@@ -1,15 +1,15 @@
 
 import abc
 
-from blitmaster import recursivelayer
+from blitmaster import setlayer
 
 
-class RenderLayer(recursivelayer.RecursiveLayer):
+class RenderLayer(setlayer.SetLayer):
 
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, name, dims):
-        recursivelayer.RecursiveLayer.__init__(self, name, dims)
+        setlayer.SetLayer.__init__(self, name, dims)
 
     ####################################
     # rendering
@@ -29,8 +29,8 @@ class RenderLayer(recursivelayer.RecursiveLayer):
 
         # render self on top
         for (x, y, point) in self.self_items():
-            if self.wrap:
-                (x, y) = self.convert_to_2d(self.convert_to_1d(x, y))
+            # if self.wrap:  # TODO: wrapping?
+            #     (x, y) = self.convert_to_2d(self.convert_to_1d(x, y))
             if self.out_of_bounds(x, y):
                 continue
             points[(x, y)] = point
@@ -38,6 +38,13 @@ class RenderLayer(recursivelayer.RecursiveLayer):
         return points
 
     def items(self, wrap=None):
+        # if wrap:
+        #     for ((x,y),p) in self.points.iteritems():
+        #         (x,y) = self.convert_to_2d(self.convert_to_1d(x,y))
+        #         if self.out_of_bounds(x,y):
+        #             continue # because iteritems has no order, we can't break :/
+        #         yield (x, y, p)
+        # else:
         for ((x, y), p) in self.render_dict().items():
             yield (x, y, p)
 
@@ -56,5 +63,9 @@ class RenderLayer(recursivelayer.RecursiveLayer):
         for y in range(self.h):
             yield (points.get((x, y), None) for x in range(self.w))
 
-    def debugrender(self, space=True):
-        return '\n'.join((' ' if space else '').join((p[0] if p is not None else ' ') for p in row) for row in self.yield_rows_with_none())
+    def debug_render_rows(self, joiner=''):
+        for row in self.yield_rows_with_none():
+            yield joiner.join((p[0] if p is not None else ' ') for p in row)
+
+    def debug_render(self, joiner=''):
+        return '\n'.join(self.debug_render_rows(joiner=joiner))

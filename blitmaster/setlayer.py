@@ -10,6 +10,7 @@ class SetLayer(recursivelayer.RecursiveLayer):
 
     def __init__(self, name, dims):
         recursivelayer.RecursiveLayer.__init__(self, name, dims)
+        self.points = {}
 
     def reset(self):
         self.points = {}
@@ -21,14 +22,10 @@ class SetLayer(recursivelayer.RecursiveLayer):
 
     ####################################
     # individual points
-    def set(self, x, y, char, color=None, mode=1):
+    def set(self, x, y, char, meta=None):
         if type(char) is not int:
             assert len(char) == 1
-        self.points[(x, y)] = (
-            char,
-            color if color is not None else DEFAULT_COLOR,
-            mode if mode is not None else DEFAULT_MODE,
-        )
+        self.points[(x, y)] = (char, meta)
 
     def unset(self, x, y):
         try:
@@ -38,25 +35,33 @@ class SetLayer(recursivelayer.RecursiveLayer):
 
     ####################################
     # setting ranges
-    def setlines(self, x, y, lines, color=None, mode=1):
+    def setlines(self, x, y, lines, meta=None):
         """
         For convenience, to allow blocks of text to be pre-written and split.
         """
         for (i, line) in enumerate(lines):
-            self.setrange(x, y + i, line, color=color, mode=mode)
+            self.setrange(x, y + i, line, meta=meta)
 
-    def setrange(self, x, y, it, color=None, mode=1):
+    def setrange(self, x, y, it, meta=None):
         for (i, c) in enumerate(it, x):
             # if not allow_beyond:
             #     if self.out_of_bounds(i, y):
             #         break
-            self.set(i, y, c, color=color, mode=mode)
+            self.set(i, y, c, meta=meta)
 
-    ####################################
-    # pre-paired ranges
     def setrange_paired(self, x, y, it):
-        for (i, (c, color, mode)) in enumerate(it, x):
+        for (i, (c, meta)) in enumerate(it, x):
             # if not allow_beyond:
             #     if self.out_of_bounds(i, y):
             #         break
-            self.set(i, y, c, color=color, mode=mode)
+            self.set(i, y, c, meta=meta)
+
+    def fill(self, c, x=0, y=0, w=0, h=0, meta=None):
+        if not w:
+            w = self.w
+        if not h:
+            h = self.h
+
+        lines = (c * w for _ in xrange(h))
+
+        self.setlines(x, y, lines, meta=meta)

@@ -1,15 +1,17 @@
 
 import abc
 
-from blitmaster import recursivelayer
+from blitmaster import baselayer
 
 
-class ResizeLayer(recursivelayer.RecursiveLayer):
+class ResizeLayer(baselayer.BaseLayer):
+
+    # TODO: might have to respect "restrict" effects?
 
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, name, dims):
-        recursivelayer.RecursiveLayer.__init__(self, name, dims)
+        baselayer.BaseLayer.__init__(self, name, dims)
 
     def resize_diff(self, dw=0, dh=0):
         (w, h) = self.size()
