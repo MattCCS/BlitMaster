@@ -20,20 +20,20 @@ class RenderLayer(recursivelayer.RecursiveLayer):
     def render_dict(self):
         points = {}
 
-        # render sub-layers, in order
-        for (ox, oy, layer) in list(self.layers.values()):
-            for (x, y, point) in layer.render_to(ox, oy):
-                if self.out_of_bounds(x, y):
-                    continue
-                points[(x, y)] = point
-
-        # render self on top
+        # render self on bottom
         for (x, y, point) in self.self_items():
             # if self.wrap:  # TODO: wrapping?
             #     (x, y) = self.convert_to_2d(self.convert_to_1d(x, y))
             if self.out_of_bounds(x, y):
                 continue
             points[(x, y)] = point
+
+        # render sub-layers on top, in order
+        for (ox, oy, layer) in list(self.layers.values()):
+            for (x, y, point) in layer.render_to(ox, oy):
+                if self.out_of_bounds(x, y):
+                    continue
+                points[(x, y)] = point
 
         return points
 
