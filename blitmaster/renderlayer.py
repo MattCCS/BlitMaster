@@ -58,14 +58,18 @@ class RenderLayer(recursivelayer.RecursiveLayer):
         for (name, (x, y, layer)) in list(self.layers.items()):
             print(("{}: pos={}/{} dims={}".format(name, x, y, layer.size())))
 
-    def yield_rows_with_none(self):
-        points = self.render_dict()
+    def yield_rows_with_none(self, recursive=True):
+        if recursive:
+            points = self.render_dict()
+        else:
+            points = dict(self.points)
+
         for y in range(self.h):
             yield (points.get((x, y), None) for x in range(self.w))
 
-    def debug_render_rows(self, joiner=''):
-        for row in self.yield_rows_with_none():
+    def debug_render_rows(self, joiner='', recursive=True):
+        for row in self.yield_rows_with_none(recursive=recursive):
             yield joiner.join((p[0] if p is not None else ' ') for p in row)
 
-    def debug_render(self, joiner=''):
-        return '\n'.join(self.debug_render_rows(joiner=joiner))
+    def debug_render(self, joiner='', recursive=True):
+        return '\n'.join(self.debug_render_rows(joiner=joiner, recursive=recursive))

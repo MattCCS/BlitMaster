@@ -12,7 +12,9 @@ class RecursiveLayer(setlayer.SetLayer):
     def __init__(self, dims, sublayers=None):
         setlayer.SetLayer.__init__(self, dims)
 
-        self.layers = OrderedDict()  # string -> (x, y, layer) (ORDER MATTERS!)
+        self.__layer_id = 0
+        self.layers = OrderedDict()  # int -> (x, y, layer) (ORDER MATTERS!)
+        self.named_layers = {}  # string -> int
 
         if sublayers is None:
             sublayers = []
@@ -20,16 +22,23 @@ class RecursiveLayer(setlayer.SetLayer):
         for (x, y, each) in sublayers:
             self.add_layer(x, y, each)
 
+    def new_id(self):
+        self.__layer_id += 1
+        return self.__layer_id - 1
+
     def reset_recursive(self):
         self.reset()
         for (_, _, layer) in list(self.layers.values()):
             layer.reset_recursive()
 
     def get_layer(self, name):
-        return self.layers[name]
+        return self.layers[self.named_layers[name]]
 
-    def add_layer(self, x, y, layer):
-        self.layers[layer.name] = (x, y, layer)  # TODO: add restrict clause?
+    def add_layer(self, x, y, layer, name=None):
+        _id = self.new_id()
+        if name is not None:
+            self.named_layers[name] = _id
+        self.layers[_id] = (x, y, layer)  # TODO: add restrict clause?
 
     def delete_layer(self, name):
         del self.layers[name]
